@@ -22,7 +22,6 @@ void ATitlePlayerController::BeginPlay()
 			UIWidgetInstance->AddToViewport();
 
 			FInputModeUIOnly Mode;
-			Mode.SetWidgetToFocus(UIWidgetInstance->GetCachedWidget());
 			SetInputMode(Mode);
 
 			bShowMouseCursor = true;
