@@ -53,6 +53,9 @@ void ACXPlayerController::BeginPlay()
 	{
 		return;
 	}
+
+	FInputModeGameOnly GameOnly;
+	SetInputMode(GameOnly);
 	
 	// spawn the UI widget and add it to the viewport
 	VehicleUI = CreateWidget<UCXUI>(this, VehicleUIClass);

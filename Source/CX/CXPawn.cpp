@@ -388,8 +388,8 @@ void ACXPawn::CTSLandMine_Implementation(const FVector& SpawnLocation, const FRo
 
 void ACXPawn::CTSAttack_Implementation()
 {
-	const FVector Start = GetActorLocation();
-	const FVector End = Start + GetActorForwardVector() * 700.0f;
+	const FVector Start = GetActorLocation() + GetActorForwardVector() * 200.0f;
+	const FVector End = Start + GetActorForwardVector() * 300.0f;
 
 	UWorld* World = GetWorld();
 	if (World == nullptr)

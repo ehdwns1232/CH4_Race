@@ -33,6 +33,7 @@ public:
 	void SetRemainingTime(int32 NewRemainingTime);
 	void SetWinners(const TArray<ACXPlayerState*>& FinalWinners);
 	int32 GetRemainingTime() const { return RemainingTime; }
+	EGameState GetGameState() const { return CurrentGameState; }
 
 	UFUNCTION()
 	void OnRep_ChangedCurrentGameState();

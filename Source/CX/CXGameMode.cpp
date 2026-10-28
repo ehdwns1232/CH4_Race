@@ -27,7 +27,14 @@ void ACXGameMode::BeginPlay()
 		CXGameStateCached->SetRemainingTime(WaitingDuration);
 	}
 
-	bIsWaitingTimeStarted = false;
+	GetWorldTimerManager().SetTimer(MinPlayerCountTimerHandle, this, &ThisClass::CheckPlayerCount, 1.0f, true);
+}
+
+void ACXGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorldTimerManager().ClearTimer(WaitingTimerHandle);
+
+	Super::EndPlay(EndPlayReason);
 }
 
 void ACXGameMode::StartWaitingCountdown()
@@ -37,7 +44,6 @@ void ACXGameMode::StartWaitingCountdown()
 		CXGameStateCached->SetGameState(EGameState::Waiting);
 		CXGameStateCached->SetRemainingTime(WaitingDuration);
 		GetWorldTimerManager().SetTimer(WaitingTimerHandle, this, &ACXGameMode::HandleWatingTimerTick, 1.0f, true);
-		bIsWaitingTimeStarted = true;
 	}
 }
 
@@ -146,11 +152,6 @@ void ACXGameMode::PostLogin(APlayerController* NewPlayer)
 			}
 		}
 	}
-
-	if (bIsWaitingTimeStarted == false)
-	{
-		StartWaitingCountdown();
-	}
 }
 
 bool ACXGameMode::IsPlayerStartAvailable(const APlayerStart* PlayerStart) const
@@ -179,4 +180,34 @@ bool ACXGameMode::IsPlayerStartAvailable(const APlayerStart* PlayerStart) const
 		);
 
 	return !bVehicleExists;
+}
+
+void ACXGameMode::CheckPlayerCount()
+{
+	if (CXGameStateCached.IsValid() == false)
+	{
+		return;
+	}
+
+	if (CXGameStateCached->GetGameState() != EGameState::Waiting)
+	{
+		return;
+	}
+
+	if (GetNumPlayers() >= MinPlayerCount)
+	{
+		if (GetWorldTimerManager().IsTimerActive(WaitingTimerHandle) == false)
+		{
+			StartWaitingCountdown();
+		}
+	}
+	else
+	{
+		if (GetWorldTimerManager().IsTimerActive(WaitingTimerHandle))
+		{
+			GetWorldTimerManager().ClearTimer(WaitingTimerHandle);
+			CXGameStateCached->SetGameState(EGameState::Waiting);
+			CXGameStateCached->SetRemainingTime(WaitingDuration);
+		}
+	}
 }

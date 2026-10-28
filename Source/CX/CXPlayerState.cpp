@@ -4,40 +4,40 @@
 #include "CXPlayerState.h"
 #include "Net/UnrealNetwork.h"
 
-static int32 GMyTestCoin = 0;
-static FAutoConsoleVariableRef CVarAddCoinServer(TEXT("Cheat.addtion.server"), GMyTestCoin, TEXT("Add Coin request to server"),
-	FConsoleVariableDelegate::CreateLambda([](IConsoleVariable* CVar)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("콘솔 변수 변경됨 ! GMyTestCoin 값: %d"), GMyTestCoin);
-
-			if (GWorld)
-			{
-				if (GWorld->GetFirstPlayerController())
-				{
-					GWorld->GetFirstPlayerController()->GetPlayerState<ACXPlayerState>()->CTSAddCoin(GMyTestCoin);
-				}
-			}
-			GMyTestCoin = 0;
-		}),
-	ECVF_Cheat
-);
-
-static FAutoConsoleVariableRef CVarAddCoinClinet(TEXT("Cheat.addtion.client"), GMyTestCoin, TEXT("Add Coin request to client only"),
-	FConsoleVariableDelegate::CreateLambda([](IConsoleVariable* CVar)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("콘솔 변수 변경됨 ! GMyTestCoin 값: %d"), GMyTestCoin);
-
-			if (GWorld)
-			{
-				if (GWorld->GetFirstPlayerController())
-				{
-					GWorld->GetFirstPlayerController()->GetPlayerState<ACXPlayerState>()->Coins += GMyTestCoin;
-				}
-			}
-			GMyTestCoin = 0;
-		}),
-	ECVF_Cheat
-);
+//static int32 GMyTestCoin = 0;
+//static FAutoConsoleVariableRef CVarAddCoinServer(TEXT("Cheat.addtion.server"), GMyTestCoin, TEXT("Add Coin request to server"),
+//	FConsoleVariableDelegate::CreateLambda([](IConsoleVariable* CVar)
+//		{
+//			UE_LOG(LogTemp, Warning, TEXT("콘솔 변수 변경됨 ! GMyTestCoin 값: %d"), GMyTestCoin);
+//
+//			if (GWorld)
+//			{
+//				if (GWorld->GetFirstPlayerController())
+//				{
+//					GWorld->GetFirstPlayerController()->GetPlayerState<ACXPlayerState>()->CTSAddCoin(GMyTestCoin);
+//				}
+//			}
+//			GMyTestCoin = 0;
+//		}),
+//	ECVF_Cheat
+//);
+//
+//static FAutoConsoleVariableRef CVarAddCoinClinet(TEXT("Cheat.addtion.client"), GMyTestCoin, TEXT("Add Coin request to client only"),
+//	FConsoleVariableDelegate::CreateLambda([](IConsoleVariable* CVar)
+//		{
+//			UE_LOG(LogTemp, Warning, TEXT("콘솔 변수 변경됨 ! GMyTestCoin 값: %d"), GMyTestCoin);
+//
+//			if (GWorld)
+//			{
+//				if (GWorld->GetFirstPlayerController())
+//				{
+//					GWorld->GetFirstPlayerController()->GetPlayerState<ACXPlayerState>()->Coins += GMyTestCoin;
+//				}
+//			}
+//			GMyTestCoin = 0;
+//		}),
+//	ECVF_Cheat
+//);
 
 
 void ACXPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

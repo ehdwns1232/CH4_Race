@@ -16,7 +16,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 protected:
 	void StartWaitingCountdown();
 	void HandleWatingTimerTick();
@@ -27,10 +27,9 @@ protected:
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	virtual void PostLogin(APlayerController* NewPlayer) override;
-
 private:
 	bool IsPlayerStartAvailable(const APlayerStart* PlayerStart) const;
-
+	void CheckPlayerCount();
 private:
 	UPROPERTY(EditDefaultsOnly)
 	FVector VehicleSpawnCheckHalfExtent = FVector(250.0, 120.0, 80.0);
@@ -45,7 +44,9 @@ private:
 	float WaitingDuration = 10.0f;
 	FTimerHandle PlayingTimerHandle;
 	float PlayingDuration = 60.0f;
-	bool bIsWaitingTimeStarted = false;
+
+	FTimerHandle MinPlayerCountTimerHandle;
+	int32 MinPlayerCount = 2;
 };
 
 
